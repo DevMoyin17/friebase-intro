@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <button onclick="signGo()">Sign In With Google ...</button>
+  <button onclick="signGit()">Sign In with GitHub</button>
+  <!-- <button onclick=""></button> -->
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, GithubAuthProvider  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyA38lBM3RzWyd_6BJW_EPYUztK9kMceozE",
+      authDomain: "testing-e56f4.firebaseapp.com",
+      projectId: "testing-e56f4",
+      storageBucket: "testing-e56f4.appspot.com", 
+      messagingSenderId: "994876542620",
+      appId: "1:994876542620:web:177483ae4a41a0b5146759"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+
+    const signGo = () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // The signed-in user info.
+          const user = result.user;
+          console.log(result.user);
+          // console.log(user);
+
+        }).catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+        });
+
+    }
+
+    const signGit = () =>{
+    const provider = new GithubAuthProvider();
+   signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+    const credential = GithubAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+
+    // The signed-in user info.
+    const user = result.user;
+    console.log( user);
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log( error);
+   
+  });
+    }
+
+    window.signGo = signGo;
+    window.signGit = signGit;
+  </script>
+</body>
+
+</html>
